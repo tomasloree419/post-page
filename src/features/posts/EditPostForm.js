@@ -1,18 +1,21 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { postAdded } from "./postsSlice";
-import { nanoid } from "@reduxjs/toolkit";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import { postUpdated } from "./postsSlice";
 
-export const AddPostForm = () => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+export const EditPostForm = () => {
+  const { postId } = useParams();
+  const post = useSelector((state) =>
+    state.posts.find((post) => post.id === postId)
+  );
 
+  const [title, setTitle] = useState(post.title);
+  const [content, setContent] = useState(post.content);
   const onTitleChanged = (e) => setTitle(e.target.value);
   const onContentChanged = (e) => setContent(e.target.value);
 
@@ -21,18 +24,21 @@ export const AddPostForm = () => {
 
   const onSavePostClicked = () => {
     if (title && content) {
-      dispatch(postAdded(title, content));
-      navigate("/");
+      dispatch(
+        postUpdated({
+          id: postId,
+          title,
+          content,
+        })
+      );
+      navigate(`/posts/${postId}`);
     }
-    setTitle("");
-    setContent("");
   };
-
   return (
     <Container maxWidth="md">
       <Box>
-        <Typography variant="h2">Add new Post</Typography>
-        <Link to="/">
+        <Typography variant="h2">Edit Post</Typography>
+        <Link to={`/posts/${postId}`}>
           <Button variant="outlined">Back</Button>
         </Link>
       </Box>
@@ -64,7 +70,7 @@ export const AddPostForm = () => {
       </Box>
       <Box style={{ marginTop: 10 }}>
         <Button variant="outlined" onClick={onSavePostClicked}>
-          Add
+          Save
         </Button>
       </Box>
     </Container>
