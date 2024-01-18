@@ -6,13 +6,11 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import { postUpdated } from "./postsSlice";
+import { postUpdated, selectPostById } from "./postsSlice";
 
 export const EditPostForm = () => {
   const { postId } = useParams();
-  const post = useSelector((state) =>
-    state.posts.find((post) => post.id === postId)
-  );
+  const post = useSelector((state) => selectPostById(state, postId));
 
   const [title, setTitle] = useState(post.title);
   const [content, setContent] = useState(post.content);
@@ -68,7 +66,7 @@ export const EditPostForm = () => {
           />
         </div>
       </Box>
-      <Box style={{ marginTop: 10 }}>
+      <Box sx={{ mt: 2 }}>
         <Button variant="outlined" onClick={onSavePostClicked}>
           Save
         </Button>

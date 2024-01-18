@@ -10,10 +10,13 @@ import CardContent from "@mui/material/CardContent";
 import Grid from "@mui/material/Unstable_Grid2";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import { PostAuthor } from "./PostAuthor";
+import { TimeAgo } from "./TimeAgo";
+import { ReactionButtons } from "./ReactionButtons";
 
 export const Post = ({ post, deletePost }) => {
   return (
-    <Card style={{ marginTop: 5 }}>
+    <Card sx={{ mt: 1 }}>
       <CardContent>
         <Grid container spacing={2}>
           <Grid xs={10}>
@@ -26,14 +29,17 @@ export const Post = ({ post, deletePost }) => {
                 secondary={
                   <React.Fragment>
                     <Typography
-                      sx={{ display: "inline" }}
+                      sx={{
+                        display: "inline",
+                        fontStyle: "italic",
+                        color: "text.secondary",
+                      }}
                       component="span"
                       variant="body2"
-                      color="text.primary"
                     >
-                      {} -&nbsp;
+                      <PostAuthor userId={post.user} /> -&nbsp;
                     </Typography>
-                    {post.content}
+                    {post.content}&nbsp; -<TimeAgo timestamp={post.date} />
                   </React.Fragment>
                 }
               />
@@ -43,12 +49,12 @@ export const Post = ({ post, deletePost }) => {
             <span>
               <Link to={`posts/${post.id}`}>
                 <VisibilityOutlinedIcon
-                  style={{ marginTop: 15, marginRight: 15 }}
+                  sx={{ mt: 3, mr: 3 }}
                   fontSize="large"
                 />
               </Link>
               <DeleteOutlineOutlinedIcon
-                style={{ marginTop: 15 }}
+                sx={{ mt: 3 }}
                 fontSize="large"
                 onClick={() => deletePost(post.id)}
               />

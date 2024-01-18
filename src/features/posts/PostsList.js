@@ -8,15 +8,19 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import { onDeletePost } from "./postsSlice";
+import { selectAllPosts } from "./postsSlice";
 
 export const PostsList = () => {
-  const posts = useSelector((state) => state.posts);
+  const posts = useSelector((state) => selectAllPosts(state));
   const dispatch = useDispatch();
   const deletePost = (id) => {
     console.log(id);
     dispatch(onDeletePost(id));
   };
-  const renderedPosts = posts.map((post) => (
+  const orderedPosts = posts
+    .slice()
+    .sort((a, b) => a.date.localeCompare(b.date));
+  const renderedPosts = orderedPosts.map((post) => (
     <Post key={post.id} post={post} deletePost={deletePost} />
   ));
 
