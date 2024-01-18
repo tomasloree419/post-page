@@ -12,7 +12,6 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import { PostAuthor } from "./PostAuthor";
 import { TimeAgo } from "./TimeAgo";
-import { ReactionButtons } from "./ReactionButtons";
 
 export const Post = ({ post, deletePost }) => {
   return (
